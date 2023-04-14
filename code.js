@@ -1,14 +1,18 @@
+// initial size
 var rows = 100;
 var cols = 100;
 
+// state of game
 var playing = false;
 
+// create objects
 var grid = new Array(rows);
 var nextGrid = new Array(rows);
 
 var timer;
 var reproductionTime = 100;
 
+// initializing the grid
 function initializeGrids() {
     for (var i = 0; i < rows; i++) {
         grid[i] = new Array(cols);
@@ -42,12 +46,12 @@ function initialize() {
     setupControlButtons();
 }
 
-// Lay out the board
+// print out the board
 function createTable() {
     var gridContainer = document.getElementById('gridContainer');
     if (!gridContainer) {
         // Throw error
-        console.error("No div for the drid table!");
+        console.error("missing div grid");
     }
     var table = document.createElement("table");
 
@@ -65,6 +69,7 @@ function createTable() {
     gridContainer.appendChild(table);
 }
 
+// click to make cell alive or dead
 function cellClickHandler() {
     var rowcol = this.id.split("_");
     var row = rowcol[0];
@@ -94,6 +99,7 @@ function updateView() {
     }
 }
 
+// buttons for ease
 function setupControlButtons() {
     // button to start
     var startButton = document.getElementById('start');
@@ -125,8 +131,6 @@ function randomButtonHandler() {
 
 // clear the grid
 function clearButtonHandler() {
-    console.log("Clear the game: stop playing, clear the grid");
-
     playing = false;
     var startButton = document.getElementById('start');
     startButton.innerHTML = "Start";
@@ -161,7 +165,7 @@ function startButtonHandler() {
     }
 }
 
-// run the life game
+// run game
 function play() {
     computeNextGen();
 
@@ -184,10 +188,10 @@ function computeNextGen() {
 }
 
 // RULES
-// Any live cell with fewer than two live neighbours dies, as if caused by under-population.
-// Any live cell with two or three live neighbours lives on to the next generation.
-// Any live cell with more than three live neighbours dies, as if by overcrowding.
-// Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
+// Any live cell with fewer than two live neighbours dies, as if caused by under-population. alive < 2 = dead
+// Any live cell with two or three live neighbours lives on to the next generation. alive ==2 || ==3 = alive
+// Any live cell with more than three live neighbours dies, as if by overcrowding. alive >= 3 = dead
+// Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction. dead + 3 = alive
 
 function applyRules(row, col) {
     var numNeighbors = countNeighbors(row, col);

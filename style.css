@@ -3,13 +3,19 @@ body {
     background-color: #070707;
 }
 
+
+
+
 h1 {
     color: #ffffff;
+    text-align: center;
 }
 
 
 #gridContainer {
     padding-bottom: 10px;
+    display: flex;
+    justify-content: center;
 }
 
 table {
